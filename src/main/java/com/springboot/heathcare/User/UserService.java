@@ -4,12 +4,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
     public User addUser(User user) {
         return userRepository.save(user);
@@ -28,4 +33,9 @@ public class UserService {
         var user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User doesn't exist"));
         userRepository.delete(user);
     }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 }
