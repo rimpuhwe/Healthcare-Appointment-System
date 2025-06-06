@@ -26,8 +26,7 @@ public class AuthController {
                     )
             );
 
-            String token = jwtUtil.generateToken(loginDto.getEmail());
-            return token;
+            return jwtUtil.generateToken(loginDto.getEmail());
         } catch (AuthenticationException e) {
             return "Invalid email or password!";
         }
