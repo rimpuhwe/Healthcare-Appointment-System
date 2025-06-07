@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,14 +46,14 @@ public class Patient {
     @Past(message = "enter valid birthDate")
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    @OneToMany(mappedBy = "patient", orphanRemoval = true)
+    @OneToMany(mappedBy = "medicalRecord", orphanRemoval = true)
     private List<MedicalRecord> medicalRecords;
 
 }

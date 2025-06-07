@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,7 +29,7 @@ public class MedicalRecord {
 
     @PastOrPresent
     @Column(nullable = false)
-    private Date recordDate;
+    private LocalDateTime recordDate;
 
     @ManyToOne
     @JoinColumn(name = "patient_id_key")

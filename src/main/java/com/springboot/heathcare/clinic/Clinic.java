@@ -30,9 +30,9 @@ public class Clinic {
     private String phone;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
-    private List<Doctor> doctors;
+    private List<Patient> patient;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
-    private List<Patient> patients;
+    private List<Doctor> doctor;
 
 }

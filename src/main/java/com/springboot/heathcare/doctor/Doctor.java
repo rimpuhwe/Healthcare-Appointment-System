@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,14 +35,14 @@ public class Doctor {
     @Email(message = "Invalid email" , regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$")
     private  String email;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Appointment> appointments ;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    @OneToMany(mappedBy = "doctor", orphanRemoval = true)
+    @OneToMany(mappedBy = "clinic", orphanRemoval = true)
     private List<MedicalRecord> medicalRecords = new ArrayList<>();
 
 }
