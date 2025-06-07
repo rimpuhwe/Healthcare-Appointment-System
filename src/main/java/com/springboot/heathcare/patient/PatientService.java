@@ -22,4 +22,12 @@ public class PatientService {
     public List<Patient> getAllPatients() { return patientRepository.findAll(); }
     public Patient getPatient(Long id) { return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not found")); }
     public void deletePatient(Long id) { patientRepository.deleteById(id); }
+    public Patient updatePatient( Long id, Patient patient) {
+        var oldPatient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not found"));
+        oldPatient.setFirstName(patient.getFirstName());
+        oldPatient.setLastName(patient.getLastName());
+        oldPatient.setPhone(patient.getPhone());
+        oldPatient.setEmail(patient.getEmail());
+        return patientRepository.save(oldPatient);
+    }
 }
