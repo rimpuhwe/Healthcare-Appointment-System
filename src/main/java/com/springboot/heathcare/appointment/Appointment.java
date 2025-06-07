@@ -1,6 +1,7 @@
 package com.springboot.heathcare.appointment;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.springboot.heathcare.doctor.Doctor;
 import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
@@ -41,10 +42,12 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id_key")
+    @JsonBackReference("patient-appointments")
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id_key")
+    @JsonBackReference("doctor-appointments")
     private Doctor doctor;
 
 

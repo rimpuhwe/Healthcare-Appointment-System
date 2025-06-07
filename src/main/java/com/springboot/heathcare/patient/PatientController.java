@@ -33,11 +33,11 @@ public class PatientController {
         return new ResponseEntity<>(patient1, HttpStatus.OK);
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Patient> update(@PathVariable Long id, @RequestBody Patient patient) {
-        Patient patient1 = patientService.updatePatient(id, patient);
-        return new ResponseEntity<>(patient1, HttpStatus.OK);
-    }
+//    @PatchMapping("/update/{id}")
+//    public ResponseEntity<Patient> update(@PathVariable Long id, @RequestBody Patient patient) {
+//        Patient patient1 = patientService.updatePatient(id, patient);
+//        return new ResponseEntity<>(patient1, HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Patient> delete(@PathVariable Long id) {

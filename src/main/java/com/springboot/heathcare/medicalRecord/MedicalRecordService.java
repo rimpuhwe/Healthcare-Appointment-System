@@ -31,6 +31,8 @@ public class MedicalRecordService {
         if (record.getRecordDate() == null) {
             record.setRecordDate(LocalDateTime.now());
         }
+        patient.getMedicalRecords().add(record);
+        doctor.getMedicalRecords().add(record);
 
         return medicalRecordRepository.save(record);
     }

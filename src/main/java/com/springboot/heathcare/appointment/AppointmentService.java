@@ -25,6 +25,12 @@ public class AppointmentService {
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
+
+        patient.getAppointments().add(appointment);
+        doctor.getAppointments().add(appointment);
+
+        patientRepository.save(patient);
+        doctorRepository.save(doctor);
         return appointmentRepository.save(appointment);
     }
 

@@ -1,16 +1,15 @@
 package com.springboot.heathcare.patient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.heathcare.appointment.Appointment;
 import com.springboot.heathcare.clinic.Clinic;
 import com.springboot.heathcare.medicalRecord.MedicalRecord;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,42 +17,39 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "patient_id", nullable = false)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "this field must not be empty")
     @Column(nullable = false, length = 50)
+    @NotBlank
     private String firstName;
 
     @Column(nullable = false, length = 50)
-    @NotEmpty(message = "provide your last name ")
+    @NotBlank
     private String lastName;
 
-    @Email(message = "invalid email" , regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$")
     @Column(nullable = false, unique = true)
+    @Email @NotBlank
     private String email;
 
-    @NotBlank(message = "must be 10-20 digits ,no whitespace")
-    @NotNull(message = "provide your mobile number ")
-    @Digits(integer = 20, fraction = 0)
+    @Column(nullable = false, length = 20, unique = true)
+    @NotBlank
     private String phone;
 
     @Column(nullable = false)
-    @Past(message = "enter valid birthDate")
-    private Date dateOfBirth;
-
-    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Appointment> appointments;
+    @Past
+    private LocalDate dateOfBirth;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    @OneToMany(mappedBy = "medicalRecord", orphanRemoval = true)
-    private List<MedicalRecord> medicalRecords;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("patient-appointments")
+    private List<Appointment> appointments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("patient-medicalrecords")
+    private List<MedicalRecord> medicalRecords = new ArrayList<>();
 }

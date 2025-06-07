@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PatientService {
-
     private final PatientRepository patientRepository;
     private final ClinicRepository clinicRepository;
 
@@ -20,25 +19,7 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
-    }
-
-    public Patient getPatient(Long id) {
-        return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not found"));
-    }
-
-    public Patient updatePatient(Long id, Patient updatedPatient) {
-        var patient =patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Patient not found"));
-        patient.setFirstName(updatedPatient.getFirstName());
-        patient.setLastName(updatedPatient.getLastName());
-        patient.setEmail(updatedPatient.getEmail());
-        patient.setPhone(updatedPatient.getPhone());
-        patient.setDateOfBirth(updatedPatient.getDateOfBirth());
-        return patientRepository.save(patient);
-    }
-
-    public void deletePatient(Long id) {
-        patientRepository.deleteById(id);
-    }
+    public List<Patient> getAllPatients() { return patientRepository.findAll(); }
+    public Patient getPatient(Long id) { return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not found")); }
+    public void deletePatient(Long id) { patientRepository.deleteById(id); }
 }

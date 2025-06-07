@@ -1,5 +1,6 @@
 package com.springboot.heathcare.clinic;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.heathcare.doctor.Doctor;
 import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
@@ -30,9 +31,11 @@ public class Clinic {
     private String phone;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
+    @JsonManagedReference("clinic-patients")
     private List<Patient> patient;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
+    @JsonManagedReference("clinic-doctors")
     private List<Doctor> doctor;
 
 }
