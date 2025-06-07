@@ -1,7 +1,6 @@
 package com.springboot.heathcare.medicalRecord;
 
 import com.springboot.heathcare.doctor.Doctor;
-import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
@@ -33,7 +32,7 @@ public class MedicalRecord {
 
     @ManyToOne
     @JoinColumn(name = "patient_id_key")
-    private Patient patient;
+    private MedicalRecord medicalRecord;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id_key")
