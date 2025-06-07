@@ -2,6 +2,7 @@ package com.springboot.heathcare.patient;
 
 import com.springboot.heathcare.appointment.Appointment;
 import com.springboot.heathcare.clinic.Clinic;
+import com.springboot.heathcare.medicalRecord.MedicalRecord;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Doctor {
+public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "patient_id", nullable = false)
@@ -53,6 +54,6 @@ public class Doctor {
     private Clinic clinic;
 
     @OneToMany(mappedBy = "medicalRecord", orphanRemoval = true)
-    private List<com.springboot.heathcare.medicalRecord.MedicalRecord> medicalRecords;
+    private List<MedicalRecord> medicalRecords;
 
 }

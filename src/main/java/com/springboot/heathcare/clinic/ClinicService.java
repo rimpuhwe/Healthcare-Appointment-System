@@ -1,6 +1,5 @@
 package com.springboot.heathcare.clinic;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,33 +8,30 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ClinicService {
-    private ClinicRepository repository;
 
-    public Clinic addClinic(Clinic clinic) {
+    private final ClinicRepository clinicRepository;
 
-        return repository.save(clinic);
+    public Clinic createClinic(Clinic clinic) {
+        return clinicRepository.save(clinic);
     }
-    public Clinic getClinicById(Long id) {
-        return repository.findById(id).orElseThrow(()->new RuntimeException("no clinic found"));
-    }
+
     public List<Clinic> getAllClinics() {
-
-        return repository.findAll();
+        return clinicRepository.findAll();
     }
 
-    public Clinic updateClinic(Long id, Clinic clinic) {
-        var oldClinic = repository.findById(id).orElseThrow(()-> new RuntimeException("Clinic not found"));
-        clinic = new Clinic();
-        oldClinic.setName(clinic.getName());
-        oldClinic.setAddress(clinic.getAddress());
-        oldClinic.setPhone(clinic.getPhone());
-
-        return repository.save(oldClinic);
+    public Clinic getClinic(Long id) {
+        return clinicRepository.findById(id).orElseThrow(() -> new RuntimeException("Clinic not found"));
     }
+
+    public Clinic updateClinic(Long id, Clinic updatedClinic) {
+        Clinic clinic = getClinic(id);
+        clinic.setName(updatedClinic.getName());
+        clinic.setAddress(updatedClinic.getAddress());
+        clinic.setPhone(updatedClinic.getPhone());
+        return clinicRepository.save(clinic);
+    }
+
     public void deleteClinic(Long id) {
-        repository.deleteById(id);
+        clinicRepository.deleteById(id);
     }
-
-
-
 }

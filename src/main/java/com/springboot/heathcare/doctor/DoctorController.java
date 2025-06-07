@@ -1,6 +1,5 @@
 package com.springboot.heathcare.doctor;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,27 +11,36 @@ import java.util.List;
 @RequestMapping("/api/doctors")
 @RequiredArgsConstructor
 public class DoctorController {
-    private final ClinicService service;
 
+    private final DoctorService doctorService;
 
-    @PostMapping("/add_doctor")
-    public ResponseEntity<Clinic> addDoctor(@RequestBody Clinic clinic) {
-        Clinic doctors = service.addDoctor(clinic);
-        return new ResponseEntity<>(doctors, HttpStatus.CREATED);
+    @PostMapping("/new")
+    public ResponseEntity<Doctor> create(@RequestBody Doctor doctor, @RequestParam Long clinicId) {
+        Doctor doc = doctorService.createDoctor(doctor, clinicId);
+        return new ResponseEntity<>(doc, HttpStatus.CREATED);
     }
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Clinic> updateDoctor(@PathVariable Long id , @RequestBody @Valid Clinic clinic) {
-        Clinic doc = service.updateDoctor(id, clinic);
-        return new ResponseEntity<>(doc, HttpStatus.OK);
-    }
-    @GetMapping()
-    public ResponseEntity<List<Clinic>> getAllDoctors() {
-        var doctors = service.getAllDoctors();
+
+    @GetMapping
+    public ResponseEntity<List<Doctor>> getAll() {
+        List<Doctor> doctors = doctorService.getAllDoctors();
         return new ResponseEntity<>(doctors, HttpStatus.OK);
     }
-    @DeleteMapping("/remove")
-    public ResponseEntity<Clinic> removeDoctor(@RequestParam Long id) {
-        service.deleteDoctor(id);
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Doctor> get(@PathVariable Long id) {
+        Doctor doc =  doctorService.getDoctor(id);
+        return new ResponseEntity<>(doc, HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Doctor> update(@RequestParam Long id, @RequestBody Doctor doctor) {
+        Doctor doc = doctorService.updateDoctor(id, doctor);
+        return new ResponseEntity<>(doc, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Doctor> delete(@PathVariable Long id) {
+        doctorService.deleteDoctor(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

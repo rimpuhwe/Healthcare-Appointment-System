@@ -1,6 +1,5 @@
 package com.springboot.heathcare.clinic;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,30 +8,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clinic")
+@RequestMapping("/api/clinics")
 @RequiredArgsConstructor
 public class ClinicController {
-    private final ClinicService service;
 
+    private final ClinicService clinicService;
 
-    @PostMapping("/add_clinic")
-    public ResponseEntity<Clinic> addPatient(@RequestBody Clinic clinic) {
-        Clinic clinics = service.addClinic(clinic);
+    @PostMapping("/create")
+    public ResponseEntity<Clinic> create(@RequestBody Clinic clinic) {
+        Clinic clinics =  clinicService.createClinic(clinic);
         return new ResponseEntity<>(clinics, HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Clinic>> getAll() {
+        List<Clinic> clinic = clinicService.getAllClinics();
+        return new ResponseEntity<>(clinic, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Clinic> get(@PathVariable Long id) {
+        Clinic clinic= clinicService.getClinic(id);
+        return new ResponseEntity<>(clinic, HttpStatus.OK);
+    }
+
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Clinic> updateClinic(@PathVariable Long id , @RequestBody @Valid Clinic clinic) {
-        Clinic clinic1 = service.updateClinic(id, clinic);
-        return new ResponseEntity<>(clinic1, HttpStatus.OK);
+    public ResponseEntity<Clinic> update(@PathVariable Long id, @RequestBody Clinic clinic) {
+        Clinic updated = clinicService.updateClinic(id, clinic);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
-    @GetMapping()
-    public ResponseEntity<List<Clinic>> getAllClinics() {
-        var doctors = service.getAllClinics();
-        return new ResponseEntity<>(doctors, HttpStatus.OK);
-    }
-    @DeleteMapping("/remove")
-    public ResponseEntity<Clinic> removeClinic(@RequestParam Long id) {
-        service.deleteClinic(id);
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Clinic> delete(@PathVariable Long id) {
+        clinicService.deleteClinic(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+

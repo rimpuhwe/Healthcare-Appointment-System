@@ -1,42 +1,50 @@
 package com.springboot.heathcare.appointment;
 
-
+import com.springboot.heathcare.patient.Patient;
+import com.springboot.heathcare.patient.PatientRepository;
+import com.springboot.heathcare.doctor.Doctor;
+import com.springboot.heathcare.doctor.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AppointmentService {
-    private AppointmentRepository repository;
 
-    public Appointment addAppointment(Appointment appointment) {
+    private final AppointmentRepository appointmentRepository;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
 
-        return repository.save(appointment);
+    public Appointment createAppointment(Appointment appointment, Long patientId, Long doctorId) {
+        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        appointment.setPatient(patient);
+        appointment.setDoctor(doctor);
+        return appointmentRepository.save(appointment);
     }
-    public Appointment getAppointmentById(Long id) {
-        return repository.findById(id).orElseThrow(()->new RuntimeException("no appointment found"));
-    }
+
     public List<Appointment> getAllAppointments() {
-
-        return repository.findAll();
+        return appointmentRepository.findAll();
     }
 
-    public Appointment updateAppointment(Long id, Appointment appointment) {
-        var oldAppointment = repository.findById(id).orElseThrow(()-> new RuntimeException("Appointment not found"));
-        appointment = new Appointment();
-        oldAppointment.setAppointmentDate(appointment.getAppointmentDate());
-        oldAppointment.setNotes(appointment.getNotes());
-        oldAppointment.setStatus(appointment.getStatus());
-
-        return repository.save(oldAppointment);
+    public Appointment getAppointment(Long id) {
+        return appointmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
+    public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
+        var appoint = appointmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appoint.setStatus(appointment.getStatus());
+        appoint.setNotes(appointment.getNotes());
+        appoint.setAppointmentDate(appointment.getAppointmentDate());
+        return appointmentRepository.save(appointment);
+    }
+
     public void deleteAppointment(Long id) {
-
-        repository.deleteById(id);
+        appointmentRepository.deleteById(id);
     }
-
-
-
 }
+

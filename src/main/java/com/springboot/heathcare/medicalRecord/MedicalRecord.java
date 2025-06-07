@@ -1,13 +1,14 @@
 package com.springboot.heathcare.medicalRecord;
 
-import com.springboot.heathcare.doctor.Clinic;
+import com.springboot.heathcare.doctor.Doctor;
+import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,14 +29,14 @@ public class MedicalRecord {
 
     @PastOrPresent
     @Column(nullable = false)
-    private Date recordDate;
+    private LocalDateTime recordDate;
 
     @ManyToOne
     @JoinColumn(name = "patient_id_key")
-    private MedicalRecord medicalRecord;
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id_key")
-    private Clinic clinic;
+    private Doctor doctor;
 
 }

@@ -1,6 +1,7 @@
 package com.springboot.heathcare.clinic;
 
-import com.springboot.heathcare.patient.MedicalRecord;
+import com.springboot.heathcare.doctor.Doctor;
+import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,9 @@ public class Clinic {
     private String phone;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
-    private List<com.springboot.heathcare.doctor.Clinic> clinics;
+    private List<Patient> patient;
 
     @OneToMany(mappedBy = "clinic", orphanRemoval = true)
-    private List<MedicalRecord> medicalRecords;
+    private List<Doctor> doctor;
 
 }

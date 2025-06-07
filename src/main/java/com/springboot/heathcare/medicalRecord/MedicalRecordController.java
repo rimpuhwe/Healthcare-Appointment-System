@@ -1,6 +1,5 @@
 package com.springboot.heathcare.medicalRecord;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,34 +8,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/records")
+@RequestMapping("/api/medical-records")
 @RequiredArgsConstructor
 public class MedicalRecordController {
-    private final MedicalRecordService service;
 
-    @PostMapping("/new")
-    public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
-        var savedMedicalRecord = service.addMedicalRecord(medicalRecord);
-        return new ResponseEntity<>(savedMedicalRecord, HttpStatus.CREATED);
+    private final MedicalRecordService medicalRecordService;
+
+    @PostMapping("/add_new")
+    public ResponseEntity<MedicalRecord> create(@RequestBody MedicalRecord record, @RequestParam Long patientId, @RequestParam Long doctorId) {
+        MedicalRecord records =  medicalRecordService.createMedicalRecord(record, patientId, doctorId);
+        return new ResponseEntity<>(records, HttpStatus.CREATED);
     }
-    @DeleteMapping("/remove")
-    public ResponseEntity<MedicalRecord> removeMedicalRecord(@RequestParam Long id) {
-        service.deleteMedicalRecord(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @PatchMapping("/{id}")
-    public ResponseEntity<MedicalRecord> updateMedicalRecord(@PathVariable Long id, @RequestBody @Valid MedicalRecord medicalRecord) {
-        var updatedMedicalRecord = service.updateMedicalRecord(id, medicalRecord);
-        return new ResponseEntity<>(updatedMedicalRecord, HttpStatus.OK);
-    }
+
     @GetMapping
-    public ResponseEntity<List<MedicalRecord>> getMedicalRecords() {
-        var records = service.findAllRecords();
+    public ResponseEntity<List<MedicalRecord>> getAll() {
+        List<MedicalRecord> records =  medicalRecordService.getAllRecords();
         return new ResponseEntity<>(records, HttpStatus.OK);
     }
-    @GetMapping
-    public ResponseEntity<MedicalRecord> getMedicalRecordById(@RequestParam Long id) {
-        var medicalRecord = service.findMedicalRecordById(id);
-        return new ResponseEntity<>(medicalRecord, HttpStatus.OK);
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MedicalRecord> get(@PathVariable Long id) {
+        MedicalRecord records =  medicalRecordService.getRecord(id);
+        return new ResponseEntity<>(records, HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecord record) {
+        MedicalRecord records =  medicalRecordService.updateRecord(id, record);
+        return new ResponseEntity<>(records, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MedicalRecord> delete(@PathVariable Long id) {
+        medicalRecordService.deleteRecord(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
