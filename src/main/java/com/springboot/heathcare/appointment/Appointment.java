@@ -1,10 +1,9 @@
 package com.springboot.heathcare.appointment;
 
-import com.springboot.heathcare.doctor.Doctor;
-import com.springboot.heathcare.patient.Patient;
+import com.springboot.heathcare.doctor.Clinic;
+import com.springboot.heathcare.patient.MedicalRecord;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,18 +27,24 @@ public class Appointment {
 
     @Future(message = "appointment must be in future date")
     private Date appointmentDate;
+
     @NotBlank(message = "provide the status of appointment")
-    private String Status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AppointmentStatus Status;
+
     @Column(length = 500)
     @Length(message = "Note exceed 500 characters ", min = 0, max = 500)
     private String notes;
 
     @ManyToOne
     @JoinColumn(name = "patient_id_key")
-    private Patient patient;
+    private MedicalRecord medicalRecord;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id_key")
-    private Doctor doctor;
+    private Clinic clinic;
+
+
 
 }

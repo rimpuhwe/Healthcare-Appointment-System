@@ -11,22 +11,22 @@ import java.util.List;
 public class PatientService {
     private PatientRepository patientRepository;
 
-    public Patient createPatient(Patient patient) {
-        return patientRepository.save(patient);
+    public Doctor createPatient(Doctor doctor) {
+        return patientRepository.save(doctor);
     }
-    public List<Patient> findAllPatients() {
+    public List<Doctor> findAllPatients() {
         return patientRepository.findAll();
     }
-    public Patient findPatientById(Long id) {
+    public Doctor findPatientById(Long id) {
         return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("No Patient found"));
     }
-    public Patient updatePatient(Long id, Patient patient) {
+    public Doctor updatePatient(Long id, Doctor doctor) {
         var existingPatient = patientRepository.findById(id).orElseThrow(()->new RuntimeException("no patient found"));
-        existingPatient.setFirstName(patient.getFirstName());
-        existingPatient.setLastName(patient.getLastName());
-        existingPatient.setDateOfBirth(patient.getDateOfBirth());
-        existingPatient.setPhone(patient.getPhone());
-        existingPatient.setEmail(patient.getEmail());
+        existingPatient.setFirstName(doctor.getFirstName());
+        existingPatient.setLastName(doctor.getLastName());
+        existingPatient.setDateOfBirth(doctor.getDateOfBirth());
+        existingPatient.setPhone(doctor.getPhone());
+        existingPatient.setEmail(doctor.getEmail());
         return patientRepository.save(existingPatient);
 
     }

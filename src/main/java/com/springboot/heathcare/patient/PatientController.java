@@ -16,22 +16,22 @@ public class PatientController {
 
 
     @PostMapping("/add_patient")
-    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
-        Patient patients = patientService.createPatient(patient);
+    public ResponseEntity<Doctor> addPatient(@RequestBody Doctor doctor) {
+        Doctor patients = patientService.createPatient(doctor);
         return new ResponseEntity<>(patients, HttpStatus.CREATED);
     }
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable Long id , @RequestBody @Valid Patient patient) {
-        Patient patients = patientService.updatePatient(id, patient);
+    public ResponseEntity<Doctor> updatePatient(@PathVariable Long id , @RequestBody @Valid Doctor doctor) {
+        Doctor patients = patientService.updatePatient(id, doctor);
         return new ResponseEntity<>(patients, HttpStatus.OK);
     }
     @GetMapping()
-    public ResponseEntity<List<Patient>> getPatients() {
+    public ResponseEntity<List<Doctor>> getPatients() {
         var patients = patientService.findAllPatients();
         return new ResponseEntity<>(patients, HttpStatus.OK);
     }
     @DeleteMapping("/remove")
-    public ResponseEntity<Patient> removePatient(@RequestParam Long id) {
+    public ResponseEntity<Doctor> removePatient(@RequestParam Long id) {
         patientService.deletePatient(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

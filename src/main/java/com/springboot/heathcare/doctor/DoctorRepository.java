@@ -1,4 +1,6 @@
 package com.springboot.heathcare.doctor;
 
-public interface DoctorRepository extends org.springframework.data.jpa.repository.JpaRepository<com.springboot.heathcare.doctor.Doctor, java.lang.Long> {
-  }
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DoctorRepository extends JpaRepository<Clinic, Long> {
+}
