@@ -3,13 +3,16 @@ package com.springboot.heathcare.appointment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
+@PreAuthorize("hasAnyAuthority('PATIENT', 'DOCTOR')")
 @RequiredArgsConstructor
+
 public class AppointmentController {
 
     private final AppointmentService appointmentService;

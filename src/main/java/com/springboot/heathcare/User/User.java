@@ -38,4 +38,7 @@ public class User {
     @Pattern(message = "choose the strongest password", regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$ ")
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 }
