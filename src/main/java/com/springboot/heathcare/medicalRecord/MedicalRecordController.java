@@ -15,9 +15,9 @@ public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
 
     @PostMapping("/add_new")
-    public ResponseEntity<MedicalRecord> create(@RequestBody MedicalRecord record, @RequestParam Long patientId, @RequestParam Long doctorId) {
-        MedicalRecord records =  medicalRecordService.createMedicalRecord(record, patientId, doctorId);
-        return new ResponseEntity<>(records, HttpStatus.CREATED);
+    public ResponseEntity<MedicalRecord> create(@RequestBody MedicalRecordDto dto, @RequestParam Long patientId, @RequestParam Long doctorId) {
+        MedicalRecord record =  medicalRecordService.createMedicalRecord(dto, patientId, doctorId);
+        return new ResponseEntity<>(record, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -33,14 +33,14 @@ public class MedicalRecordController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecord record) {
+    public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecordDto record) {
         MedicalRecord records =  medicalRecordService.updateRecord(id, record);
         return new ResponseEntity<>(records, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MedicalRecord> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         medicalRecordService.deleteRecord(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Medical record deleted successfully.", HttpStatus.OK);
     }
 }

@@ -14,9 +14,14 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final ClinicRepository clinicRepository;
 
-    public Doctor createDoctor(Doctor doctor, Long clinicId) {
+    public Doctor createDoctor(DoctorDto dto, Long clinicId) {
         Clinic clinic = clinicRepository.findById(clinicId)
                 .orElseThrow(() -> new RuntimeException("Clinic not found"));
+        Doctor doctor = new Doctor();
+        doctor.setEmail(dto.getEmail());
+        doctor.setFirstName(dto.getFirstName());
+        doctor.setLastName(dto.getLastName());
+        doctor.setSpeciality(dto.getSpeciality());
         doctor.setClinic(clinic);
         return doctorRepository.save(doctor);
     }
@@ -30,7 +35,7 @@ public class DoctorService {
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
 
-    public Doctor updateDoctor(Long id, Doctor updatedDoctor) {
+    public Doctor updateDoctor(Long id, DoctorDto updatedDoctor) {
         var doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found"));
         doctor.setFirstName(updatedDoctor.getFirstName());
         doctor.setLastName(updatedDoctor.getLastName());

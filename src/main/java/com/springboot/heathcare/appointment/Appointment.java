@@ -7,6 +7,7 @@ import com.springboot.heathcare.patient.Patient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,10 +32,10 @@ public class Appointment {
     @Future(message = "appointment must be in future date")
     private LocalDateTime appointmentDate;
 
-    @NotBlank(message = "provide the status of appointment")
+    @NotNull(message = "provide the status of appointment")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AppointmentStatus Status;
+    private AppointmentStatus status;
 
     @Column(length = 500)
     @Length(message = "Note exceed 500 characters ", min = 0, max = 500)

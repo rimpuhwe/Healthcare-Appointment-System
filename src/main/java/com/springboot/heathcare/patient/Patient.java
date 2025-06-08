@@ -1,5 +1,6 @@
 package com.springboot.heathcare.patient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.springboot.heathcare.appointment.Appointment;
 import com.springboot.heathcare.clinic.Clinic;
@@ -43,6 +44,7 @@ public class Patient {
 
     @ManyToOne
     @JoinColumn(name = "clinic_id")
+    @JsonBackReference("clinic-patients")
     private Clinic clinic;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -19,11 +19,16 @@ public class MedicalRecordService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
-    public MedicalRecord createMedicalRecord(MedicalRecord record, Long patientId, Long doctorId) {
+    public MedicalRecord createMedicalRecord(MedicalRecordDto dto, Long patientId, Long doctorId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        MedicalRecord record = new MedicalRecord();
+        record.setRecordDate(dto.getRecordDate());
+        record.setPrescription(dto.getPrescription());
+        record.setDiagnosis(dto.getDiagnosis());
 
         record.setPatient(patient);
         record.setDoctor(doctor);
@@ -45,7 +50,7 @@ public class MedicalRecordService {
         return medicalRecordRepository.findById(id).orElseThrow(() -> new RuntimeException("Medical record not found"));
     }
 
-    public MedicalRecord updateRecord(Long id, MedicalRecord updatedRecord) {
+    public MedicalRecord updateRecord(Long id, MedicalRecordDto updatedRecord) {
         MedicalRecord record = getRecord(id);
         record.setDiagnosis(updatedRecord.getDiagnosis());
         record.setPrescription(updatedRecord.getPrescription());
