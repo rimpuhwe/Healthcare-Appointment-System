@@ -1,11 +1,11 @@
 package com.springboot.heathcare.User;
 
-import com.springboot.heathcare.User.User;
-import com.springboot.heathcare.User.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail()) // Use email as username
                 .password(user.getPassword()) //  Ensure password is stored securely
-                .roles("USER") //  Assign user role (adjust if needed)
+                .authorities(Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))) //  Assign user role (adjust if needed)
                 .build();
     }
 

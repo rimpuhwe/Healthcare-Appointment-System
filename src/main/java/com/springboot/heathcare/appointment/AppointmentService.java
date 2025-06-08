@@ -51,7 +51,7 @@ public class AppointmentService {
         appoint.setStatus(appointment.getStatus());
         appoint.setNotes(appointment.getNotes());
         appoint.setAppointmentDate(appointment.getAppointmentDate());
-        return appointmentRepository.save(appointment);
+        return appointmentRepository.save(appoint);
     }
 
     public void deleteAppointment(Long id) {
