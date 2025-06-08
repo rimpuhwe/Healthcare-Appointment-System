@@ -15,9 +15,9 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping("/add_new")
-    public ResponseEntity<Patient> create(@RequestBody Patient patient, @RequestParam Long clinicId) {
-        Patient patient1 =  patientService.createPatient(patient, clinicId);
-        return new ResponseEntity<>(patient1, HttpStatus.CREATED);
+    public ResponseEntity<Patient> create(@RequestBody PatientDto dto, @RequestParam Long clinicId) {
+        Patient patient =  patientService.createPatient(dto, clinicId);
+        return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -34,15 +34,15 @@ public class PatientController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Patient> update(@PathVariable Long id, @RequestBody Patient patient) {
+    public ResponseEntity<Patient> update(@PathVariable Long id, @RequestBody PatientDto patient) {
         Patient patient1 = patientService.updatePatient(id, patient);
         return new ResponseEntity<>(patient1, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Patient> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         patientService.deletePatient(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Patient successfully deleted",HttpStatus.OK);
     }
 }
 

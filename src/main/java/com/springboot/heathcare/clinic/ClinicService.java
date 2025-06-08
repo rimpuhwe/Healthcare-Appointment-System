@@ -11,7 +11,11 @@ public class ClinicService {
 
     private final ClinicRepository clinicRepository;
 
-    public Clinic createClinic(Clinic clinic) {
+    public Clinic createClinic(ClinicDto dto) {
+        Clinic clinic = new Clinic();
+        clinic.setName(dto.getName());
+        clinic.setAddress(dto.getAddress());
+        clinic.setPhone(dto.getPhone());
         return clinicRepository.save(clinic);
     }
 
@@ -23,7 +27,7 @@ public class ClinicService {
         return clinicRepository.findById(id).orElseThrow(() -> new RuntimeException("Clinic not found"));
     }
 
-    public Clinic updateClinic(Long id, Clinic updatedClinic) {
+    public Clinic updateClinic(Long id, ClinicDto updatedClinic) {
         Clinic clinic = getClinic(id);
         clinic.setName(updatedClinic.getName());
         clinic.setAddress(updatedClinic.getAddress());

@@ -15,9 +15,9 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
     @PostMapping("/add")
-    public ResponseEntity<Appointment> create(@RequestBody Appointment appointment, @RequestParam Long patientId, @RequestParam Long doctorId) {
-        Appointment appoint =  appointmentService.createAppointment(appointment, patientId, doctorId);
-        return new ResponseEntity<>(appoint, HttpStatus.OK);
+    public ResponseEntity<Appointment> create(@RequestBody AppointmentDto dto, @RequestParam Long patientId, @RequestParam String doctorName) {
+        Appointment appointment =  appointmentService.createAppointment(dto, patientId, doctorName);
+        return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
     @GetMapping
@@ -31,14 +31,14 @@ public class AppointmentController {
         Appointment appointment =  appointmentService.getAppointment(id);
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
-    public ResponseEntity<Appointment> update(@PathVariable Long id, @RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> update(@PathVariable Long id, @RequestBody AppointmentDto appointment) {
         Appointment appointment1 = appointmentService.updateAppointment(id, appointment);
         return new ResponseEntity<>(appointment1, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Appointment> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         appointmentService.deleteAppointment(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Appointment is successfully deleted ",HttpStatus.OK);
     }
 }

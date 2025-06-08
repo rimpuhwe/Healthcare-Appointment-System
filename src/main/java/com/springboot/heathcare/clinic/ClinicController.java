@@ -15,8 +15,8 @@ public class ClinicController {
     private final ClinicService clinicService;
 
     @PostMapping("/create")
-    public ResponseEntity<Clinic> create(@RequestBody Clinic clinic) {
-        Clinic clinics =  clinicService.createClinic(clinic);
+    public ResponseEntity<Clinic> create(@RequestBody ClinicDto dto) {
+        Clinic clinics =  clinicService.createClinic(dto);
         return new ResponseEntity<>(clinics, HttpStatus.CREATED);
     }
 
@@ -33,15 +33,15 @@ public class ClinicController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Clinic> update(@PathVariable Long id, @RequestBody Clinic clinic) {
+    public ResponseEntity<Clinic> update(@PathVariable Long id, @RequestBody ClinicDto clinic) {
         Clinic updated = clinicService.updateClinic(id, clinic);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Clinic> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         clinicService.deleteClinic(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Clinic is deleted successful",HttpStatus.OK);
     }
 }
 

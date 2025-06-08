@@ -19,12 +19,23 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
-    public Appointment createAppointment(Appointment appointment, Long patientId, Long doctorId) {
+    public Appointment createAppointment(AppointmentDto dto, Long patientId, String doctorName) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
-        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Doctor doctor = doctorRepository.findDoctorByFirstNameContainingIgnoreCase(doctorName);
+
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentDate(dto.getAppointmentDate());
+        appointment.setNotes(dto.getNotes());
+        appointment.setStatus(dto.getStatus());
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
+
+        patient.getAppointments().add(appointment);
+        doctor.getAppointments().add(appointment);
+
+        patientRepository.save(patient);
+        doctorRepository.save(doctor);
         return appointmentRepository.save(appointment);
     }
 
@@ -35,7 +46,7 @@ public class AppointmentService {
     public Appointment getAppointment(Long id) {
         return appointmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
-    public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
+    public Appointment updateAppointment(@PathVariable Long id, @RequestBody AppointmentDto appointment) {
         var appoint = appointmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
         appoint.setStatus(appointment.getStatus());
         appoint.setNotes(appointment.getNotes());
