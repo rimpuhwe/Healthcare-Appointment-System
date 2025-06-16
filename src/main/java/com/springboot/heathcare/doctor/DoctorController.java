@@ -1,5 +1,6 @@
 package com.springboot.heathcare.doctor;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/api/doctors")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('DOCTOR')")
+@SecurityRequirement(name = "auth")
 public class DoctorController {
 
     private final DoctorService doctorService;
