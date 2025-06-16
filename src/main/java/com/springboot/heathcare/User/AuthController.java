@@ -1,6 +1,6 @@
 package com.springboot.heathcare.User;
 
-import com.springboot.heathcare.config.JwtUtil;
+import com.springboot.heathcare.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtUtil;
 
     @PostMapping("/login")
     public String login(@RequestBody LoginDto loginDto) {
@@ -26,7 +26,7 @@ public class AuthController {
                     )
             );
 
-            return jwtUtil.generateToken(loginDto.getEmail());
+            return jwtUtil.generateToken(loginDto.getEmail(), loginDto.getPassword());
         } catch (AuthenticationException e) {
             return "Invalid email or password!";
         }
